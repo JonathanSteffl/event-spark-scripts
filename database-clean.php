@@ -2,7 +2,7 @@
 
 try {
 	$dbx = getConnection();
-	$query = "DELETE FROM " . $GLOBAL['table'] . " WHERE end_date < (UNIX_TIMESTAMP() + 10000) AND id != 1";
+	$query = "DELETE FROM " . $GLOBAL['table'] . " WHERE end_date < (UNIX_TIMESTAMP() + 10000)";
 	$state = $dbx->prepare($query);
 	$state->execute();
 	$dbx = NULL;
@@ -14,7 +14,7 @@ catch (PDOException $e) {
 
 function getConnection() {
 	// The database credentials are kept out of revision control.
-	include("$_SERVER[DOCUMENT_ROOT]/../settings.php");
+	include("settings.php");
 
 	// Keep the table variable available globally.
 	$GLOBALS["table"] = $table;
