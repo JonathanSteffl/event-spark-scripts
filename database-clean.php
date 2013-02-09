@@ -2,7 +2,7 @@
 
 try {
 	$dbx = getConnection();
-	$query = "DELETE FROM " . $GLOBAL['table'] . " WHERE end_date < (UNIX_TIMESTAMP() + 10000)";
+	$query = "DELETE FROM " . $GLOBAL['table'] . " WHERE end_date < (UNIX_TIMESTAMP(NOW()) + 10000)";
 	$state = $dbx->prepare($query);
 	$state->execute();
 	$dbx = NULL;
