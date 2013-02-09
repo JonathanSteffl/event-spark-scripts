@@ -6,8 +6,10 @@ try {
 	$state = $dbx->prepare($query);
 	$state->execute();
 	$dbx = NULL;
+	echo 'Cron job completed sucessfully.';
 }
 catch (PDOException $e) {
+	echo 'Cron job error: ' . $e->getMessage();
 	$dbx = NULL;
 }
 
