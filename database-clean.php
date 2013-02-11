@@ -3,10 +3,9 @@
 try {
 	$dbx = getConnection();
 	$query = "DELETE FROM " . $GLOBALS['table'] . " WHERE end_date < (UNIX_TIMESTAMP(NOW()) - 10000)";
-	$state = $dbx->prepare($query);
-	$state->execute();
+	$count = $dbx->exec($query);
 	$dbx = NULL;
-	echo 'Cron job completed sucessfully.';
+	echo 'Cron job completed sucessfully.\nNumber of events removed: ' . $count;
 }
 catch (PDOException $e) {
 	echo 'Cron job error: ' . $e->getMessage();
