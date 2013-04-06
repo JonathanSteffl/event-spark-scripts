@@ -5,9 +5,20 @@ echo "Report Cron job started." . PHP_EOL;
 try {
 	$dbx = getConnection();
 
+	$queryarray = array(
+		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " WHERE reason = 0 AND user_type > 0 GROUP BY id HAVING COUNT(*) > 4)",
+		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " WHERE reason = 1 AND user_type > 0 GROUP BY id HAVING COUNT(*) > 3)",
+		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " WHERE reason = 2 AND user_type > 0 GROUP BY id HAVING COUNT(*) > 2)",
+		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " WHERE reason = 0 AND user_type = 0 GROUP BY id HAVING COUNT(*) > 3)",
+		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " WHERE reason = 1 AND user_type = 0 GROUP BY id HAVING COUNT(*) > 2)",
+		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " WHERE reason = 2 AND user_type = 0 GROUP BY id HAVING COUNT(*) > 1)"
+	);
+
+	$count = 0;
+	foreach ($queryarray as $query) {
+		$count += $dbx->exec($query);
+	}
 	// Remove events reported more than twice
-	$query = "DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " GROUP BY id HAVING COUNT(*) > 2)";
-	$count = $dbx->exec($query);
 	echo "  Offending events removed: " . $count . PHP_EOL;
 
 	$dbx = NULL;
