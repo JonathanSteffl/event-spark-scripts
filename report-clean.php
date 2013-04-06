@@ -6,7 +6,7 @@ try {
 	$dbx = getConnection();
 
 	// Remove events reported more than twice
-	$query = "DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " WHERE COUNT(*) > 2)";
+	$query = "DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " GROUP BY id HAVING COUNT(*) > 2)";
 	$count = $dbx->exec($query);
 	echo "  Offending events removed: " . $count . PHP_EOL;
 
