@@ -2,7 +2,7 @@
 
 try {
 	$dbx = getConnection();
-	$query = "DELETE FROM " . $GLOBALS['table'] . " WHERE end_date < (UNIX_TIMESTAMP(NOW()) - 10000)";
+	$query = "DELETE FROM " . $GLOBALS['table'] . " WHERE end_date < (UNIX_TIMESTAMP(NOW()) - 10000) AND id != 1";
 	$count = $dbx->exec($query);
 	$dbx = NULL;
 	echo 'Cron job completed sucessfully.
