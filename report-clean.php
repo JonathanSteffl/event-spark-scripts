@@ -6,12 +6,12 @@ try {
 	$dbx = getConnection();
 
 	$queryarray = array(
-		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " WHERE reason = 0 AND user_type > 0 GROUP BY id HAVING COUNT(*) > 4)",
-		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " WHERE reason = 1 AND user_type > 0 GROUP BY id HAVING COUNT(*) > 3)",
-		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " WHERE reason = 2 AND user_type > 0 GROUP BY id HAVING COUNT(*) > 2)",
-		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " WHERE reason = 0 AND user_type = 0 GROUP BY id HAVING COUNT(*) > 3)",
-		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " WHERE reason = 1 AND user_type = 0 GROUP BY id HAVING COUNT(*) > 2)",
-		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE id IN (SELECT id FROM " . $GLOBALS['report_t'] . " WHERE reason = 2 AND user_type = 0 GROUP BY id HAVING COUNT(*) > 1)"
+		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE events.id IN (SELECT reports.id FROM " . $GLOBALS['report_t'] . " WHERE reason = 0 GROUP BY reports.id HAVING COUNT(*) > 4 AND events.user_type > 0)",
+		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE events.id IN (SELECT reports.id FROM " . $GLOBALS['report_t'] . " WHERE reason = 1 GROUP BY reports.id HAVING COUNT(*) > 3 AND events.user_type > 0)",
+		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE events.id IN (SELECT reports.id FROM " . $GLOBALS['report_t'] . " WHERE reason = 2 GROUP BY reports.id HAVING COUNT(*) > 2 AND events.user_type > 0)",
+		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE events.id IN (SELECT reports.id FROM " . $GLOBALS['report_t'] . " WHERE reason = 0 GROUP BY reports.id HAVING COUNT(*) > 3 AND events.user_type = 0)",
+		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE events.id IN (SELECT reports.id FROM " . $GLOBALS['report_t'] . " WHERE reason = 1 GROUP BY reports.id HAVING COUNT(*) > 2 AND events.user_type = 0)",
+		"DELETE FROM " . $GLOBALS['event_t'] . " WHERE events.id IN (SELECT reports.id FROM " . $GLOBALS['report_t'] . " WHERE reason = 2 GROUP BY reports.id HAVING COUNT(*) > 1 AND events.user_type = 0)"
 	);
 
 	$count = 0;
